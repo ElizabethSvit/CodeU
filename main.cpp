@@ -12,23 +12,26 @@
 
 using namespace std;
 
-string is_permutation(string str1, string str2) {
+bool is_permutation(string str1, string str2) {
     transform(str1.begin(), str1.end(), str1.begin(), ::tolower);
     transform(str2.begin(), str2.end(), str2.begin(), ::tolower);
     
     sort(str1.begin(), str1.end());
     sort(str2.begin(), str2.end());
     
-    return str1 == str2 ? "True" : "False";
+    return str1 == str2;
 }
 
 struct Node {
-    Node* head;
     Node* next;
     int value;
+    
+    Node(int val) {
+        value = val;
+    }
 };
 
-void find_k_to_end(struct Node* head, int k, int &result_value) {
+Node* find_k_to_end(struct Node* head, int k) {
     int length = 0;
     int i = 0;
     struct Node *curr = head;
@@ -38,17 +41,16 @@ void find_k_to_end(struct Node* head, int k, int &result_value) {
         length++;
     }
     
-    if (length < k) {
-        return;
+    if (length < k - 1) {
+        return NULL;
     }
     
     curr = head;
-    for (i = 1; i < length - k + 1; ++i) {
+    for (i = 0; i < length - k - 1; ++i) {
         curr = curr -> next;
     }
     
-    result_value = curr -> value;
-    return;
+    return curr;
 }
 
 int main(int argc, const char * argv[]) {
@@ -60,20 +62,12 @@ int main(int argc, const char * argv[]) {
     cout << is_permutation("", "") << "\n";
     
     // Task2
-    Node* head = new Node;
-    head -> value = 5;
-    Node* next = new Node;
-    next -> value = 10;
-    next -> next = NULL;
+    Node* head = new Node(5);
+    Node* next = new Node(10);
     head -> next = next;
     
-    int result_value;
-    
-    find_k_to_end(head, 1, result_value);
-    cout << result_value << "\n";
-    
-    find_k_to_end(head, 2, result_value);
-    cout << result_value << "\n";
+    cout << find_k_to_end(head, 0) -> value << "\n";
+    cout << find_k_to_end(head, 1) -> value << "\n";
     
     return 0;
 }

@@ -23,7 +23,7 @@ bool is_permutation(string str1, string str2) {
 }
 
 struct Node {
-    Node* next;
+    Node* next = NULL;
     int value;
     
     Node(int val) {
@@ -33,20 +33,19 @@ struct Node {
 
 Node* find_k_to_end(struct Node* head, int k) {
     int length = 0;
-    int i = 0;
     struct Node *curr = head;
     
     while (curr) {
         curr = curr -> next;
         length++;
     }
-    
-    if (length < k - 1) {
+
+    if (k >= length || k < 0) {
         return NULL;
     }
     
     curr = head;
-    for (i = 0; i < length - k - 1; ++i) {
+    for (int i = 0; i < length - k - 1; ++i) {
         curr = curr -> next;
     }
     
@@ -61,11 +60,13 @@ int main(int argc, const char * argv[]) {
     cout << is_permutation("Apple", "Pabble") << "\n";
     cout << is_permutation("", "") << "\n";
     
+    
     // Task2
     Node* head = new Node(5);
     Node* next = new Node(10);
     head -> next = next;
     
+    cout << find_k_to_end(head, -1) << "\n";
     cout << find_k_to_end(head, 0) -> value << "\n";
     cout << find_k_to_end(head, 1) -> value << "\n";
     
